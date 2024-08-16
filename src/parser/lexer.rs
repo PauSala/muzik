@@ -7,6 +7,8 @@ pub struct Lexer {
     current: usize,
 }
 
+static NON_CHORD_CHARS: [char; 7] = ['l', '.', '}', ',', '|', 'O', '_'];
+
 impl Lexer {
     pub fn new() -> Lexer {
         Lexer {
@@ -34,7 +36,7 @@ impl Lexer {
     }
 
     fn is_chord_character(&self, c: &char) -> bool {
-        *c != '\\' && *c != '.' && *c != '_' && *c != ',' && *c != '|'
+        !NON_CHORD_CHARS.contains(c)
     }
 
     pub fn scan_tokens(&mut self, source: &str) -> Vec<Token> {
@@ -57,11 +59,14 @@ impl Lexer {
         match c {
             None => (),
             Some(c) => match c {
-                '\\' => self.add_token(TokenType::Duration(Duration::Quarter)),
-                '_' => self.add_token(TokenType::Rest(Rest::QuarterRest)),
+                'O' => self.add_token(TokenType::Duration(Duration::Half)),
+                '_' => self.add_token(TokenType::Rest(Rest::HalfRest)),
+                'l' => self.add_token(TokenType::Duration(Duration::Quarter)),
+                '}' => self.add_token(TokenType::Rest(Rest::QuarterRest)),
                 ',' => self.add_token(TokenType::Duration(Duration::Eight)),
                 '.' => self.add_token(TokenType::Rest(Rest::EightRest)),
                 '|' => (),
+                ' ' => (),
                 _ => {
                     let mut chord = String::from(c);
                     let p = chars.peek();

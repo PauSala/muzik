@@ -1,10 +1,12 @@
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Duration {
+    Half,
     Quarter,
     Eight,
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Rest {
+    HalfRest,
     QuarterRest,
     EightRest,
 }

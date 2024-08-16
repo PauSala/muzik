@@ -1,4 +1,2 @@
-pub mod lexer;
-pub mod midi_chord;
-pub mod parse;
-pub mod tokens;
+pub(crate) mod lexer;
+pub(crate) mod tokens;
