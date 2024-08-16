@@ -1,0 +1,12 @@
+[package]
+name = "midi_comping"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chordparser = "1.0.1"
+midly = "0.5.3"
+
+[[example]]
+name = "comping"
+path = "examples/comping.rs"
