@@ -79,6 +79,9 @@ match smf {
 }
 ```
 
+The generated file, imported to GarageBand and exported as an audio file:
+<a href="RubyMyDear.mp3">Play sound file</a>
+
 # Limitations
 
 - The rithm palette is narrowed in favor of simplicity. There are no sixteenth notes/rests, no triplets and no dots. This is fine for our use cases, but maybe in the future we will add at least sixteenths and dots.
