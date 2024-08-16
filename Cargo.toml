@@ -5,7 +5,7 @@ edition = "2021"
 description = "A parser library to generate Jazz/Pop/Rock chords from string inputs"
 repository = "https://github.com/PauSala/muzik"
 license = "MIT"
-keywords = ["music", "music-theory", "chords", "midi", "parser", "backing track"]
+keywords = ["music", "music-theory", "chords", "midi", "backing track"]
 categories = ["multimedia::audio", "parsing"]
 exclude = [".DS_Store"]
 
