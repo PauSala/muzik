@@ -46,7 +46,7 @@ Once the string input is defined instantiate the [ChordCompingGenerator](comping
 
 Another way to define the input is using wildcards for chords, so you could use this template:
 
-- `|*l l ~ |*O   |*L *L |*l } l } |`.
+- `|*l l ~ |*O   |*L *L |*l } l } |`
 
 And then, use a vector of chords containing 5 chord strings (one for each wildcard `*`).
 Then call the `from_wildcards` method with the input string and chord vector.  
