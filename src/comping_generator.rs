@@ -6,18 +6,20 @@ use midly::{
 
 use crate::{
     midi_chord::MidiChord,
-    parser::{
+    tokenize::{
         lexer::Lexer,
         tokens::{Duration, Rest, TokenType},
     },
 };
 
+/// Chord comping generator.  
+/// Generates a MIDI file (Smf) from a string with chords and durations.
 pub struct ChordCompingGenerator {
     /// Beats per minute
     bpm: u32,
     /// Ticks per beat
     tpb: u16,
-    /// Higest note to build the voicing around
+    /// Higest note as MIDI code to build the voicing around
     lead_note: u8,
 }
 
@@ -36,24 +38,32 @@ impl ChordCompingGenerator {
         }
     }
 
-    // TODO: add whole, half, sixteenth
-    // fn whole(&self) -> u16 {
-    //     4 * self.tpb
-    // }
+    /// Whole note duration in MIDI ticks
+    fn whole(&self) -> u16 {
+        4 * self.tpb
+    }
 
+    /// Half note duration in MIDI ticks
     fn half(&self) -> u16 {
         2 * self.tpb
     }
 
+    /// Quarter note duration in MIDI ticks
     fn quarter(&self) -> u16 {
         self.tpb
     }
 
+    /// Eigth note duration in MIDI ticks
     fn eigth(&self) -> u16 {
         self.tpb / 2
     }
 
-    pub fn with_wildcards(
+    /// Generate a MIDI file from a string representing rithm and a set of chords.  
+    /// Every wildcart character '*' in the rithm string will be replaced by a chord from the chords vector.
+    /// ## Arguments
+    /// * `i` - A string with chords and durations.
+    /// * `omit_bass` - If true, the bass note of the chord will be omitted.
+    pub fn from_wildcards(
         &self,
         i: &str,
         chords: &mut Vec<&str>,
@@ -77,6 +87,10 @@ impl ChordCompingGenerator {
         self.from_string(&parsed, omit_bass)
     }
 
+    /// Generate a MIDI file from a string with chords and durations.
+    /// ## Arguments
+    /// * `i` - A string with chords and durations.
+    /// * `omit_bass` - If true, the bass note of the chord will be omitted.
     pub fn from_string(&self, i: &str, omit_bass: bool) -> Result<Smf, ParserErrors> {
         // microseconds x beat
         let mc_x_beat = 60 * 1_000_000 / self.bpm;
@@ -113,6 +127,7 @@ impl ChordCompingGenerator {
         Ok(smf)
     }
 
+    /// Parse chords and durations from input string.  
     fn chord_events(&self, i: &str) -> Result<Vec<MidiChord>, ParserErrors> {
         let mut lexer = Lexer::new();
         let mut parser = Parser::new();
@@ -126,20 +141,35 @@ impl ChordCompingGenerator {
                 TokenType::Chord(ch) => {
                     let ch = parser.parse(&ch);
                     match ch {
-                        Ok(ch) => context = Some(MidiChord::new(ch, 0, 0, self.lead_note)),
+                        Ok(ch) => {
+                            let ln = match context {
+                                Some(ctx) => {
+                                    let prev = ctx.midi_codes[ctx.midi_codes.len() - 1];
+                                    if prev.abs_diff(self.lead_note) < 5 {
+                                        prev
+                                    } else {
+                                        self.lead_note
+                                    }
+                                }
+                                None => self.lead_note,
+                            };
+                            context = Some(MidiChord::new(ch, 0, 0, ln));
+                        }
                         Err(e) => return Err(e),
                     }
                 }
                 TokenType::Rest(r) => match r {
+                    Rest::Whole => start += self.whole(),
+                    Rest::Half => start += self.half(),
                     Rest::Quarter => start += self.quarter(),
                     Rest::Eight => start += self.eigth(),
-                    Rest::Half => start += self.half(),
                 },
                 TokenType::Duration(d) => {
                     let duration = match d {
+                        Duration::Whole => self.whole(),
+                        Duration::Half => self.half(),
                         Duration::Quarter => self.quarter(),
                         Duration::Eight => self.eigth(),
-                        Duration::Half => self.half(),
                     };
                     if let Some(ref mut ctx) = context {
                         ctx.start = start;
@@ -154,6 +184,7 @@ impl ChordCompingGenerator {
         Ok(chords)
     }
 
+    /// Add MIDI events for a chord to the events vector.
     fn add_midi_chord(
         &self,
         events: &mut Vec<TrackEvent>,

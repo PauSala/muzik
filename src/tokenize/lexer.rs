@@ -1,13 +1,15 @@
 use super::tokens::{Duration, Rest, Token, TokenType};
 use std::{iter::Peekable, str::Chars};
 
+/// Rithm and measure sepparator characters
+static NON_CHORD_CHARS: [char; 9] = ['O', '_', 'L', '~', 'l', '}', ',', '.', '|'];
+
+/// Lexer for generating tokens from input string
 pub struct Lexer {
     source: String,
     tokens: Vec<Token>,
     current: usize,
 }
-
-static NON_CHORD_CHARS: [char; 7] = ['l', '.', '}', ',', '|', 'O', '_'];
 
 impl Lexer {
     pub fn new() -> Lexer {
@@ -39,6 +41,8 @@ impl Lexer {
         !NON_CHORD_CHARS.contains(c)
     }
 
+    /// Scan tokens from source string
+    /// Returns a vector of tokens
     pub fn scan_tokens(&mut self, source: &str) -> Vec<Token> {
         self.set_source(source);
         let source = self.source.clone();
@@ -54,19 +58,21 @@ impl Lexer {
         res
     }
 
+    /// Scan a single token and add it to the tokens vector.
     fn scan_token(&mut self, chars: &mut Peekable<Chars>) {
         let c = self.advance(chars);
         match c {
             None => (),
             Some(c) => match c {
-                'O' => self.add_token(TokenType::Duration(Duration::Half)),
-                '_' => self.add_token(TokenType::Rest(Rest::Half)),
+                'O' => self.add_token(TokenType::Duration(Duration::Whole)),
+                '_' => self.add_token(TokenType::Rest(Rest::Whole)),
+                'L' => self.add_token(TokenType::Duration(Duration::Half)),
+                '~' => self.add_token(TokenType::Rest(Rest::Half)),
                 'l' => self.add_token(TokenType::Duration(Duration::Quarter)),
                 '}' => self.add_token(TokenType::Rest(Rest::Quarter)),
                 ',' => self.add_token(TokenType::Duration(Duration::Eight)),
                 '.' => self.add_token(TokenType::Rest(Rest::Eight)),
-                '|' => (),
-                ' ' => (),
+                '|' | ' ' | '\n' | '\t' | '\r' => (),
                 _ => {
                     let mut chord = String::from(c);
                     let p = chars.peek();

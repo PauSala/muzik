@@ -1,33 +1,18 @@
+use muzik::comping_generator::ChordCompingGenerator;
 use std::path::Path;
 
-use midi_comping::comping_generator::ChordCompingGenerator;
-
 fn main() {
-    let generator = ChordCompingGenerator::new(120, 70);
-    //  "|DbMaj7,..,}.Abm11,|}}.Db713b9l,|GbMaj7,.GbMaj7+,.Gb6,..Ebm7b511,|}}Ab713b9,..,|Gm7b511,.}C7#9b13,.}|Fm7b5add11l}Bb7b9b13l.,|Ebm11l}.,.Ab13b9,|}.,.,.,|"
-    // "|Fm6Maj79,.}}Bbm69.l.}}}|Fm6.l.lGb13#11.l..F7#9b13l.}|Bbm69,.,.,.,.|Gm7b5}l.C7#9b13l.|FmMaj7add9,..,}}|Dm7b5.l.l}|Db13#11l}l}|C7#9b13,.l}}|FmMaj79l.Fmb69l.Fm69l|Fm7.,}C7b9b13l}|",
-    let mut chords = vec![
-        "DbMaj7",
-        "Abm11",
-        "Db713b9",
-        "GbMaj7+",
-        "Gb6",
-        "Ebm7b511",
-        "Ab713b9",
-        "Gm7b511",
-        "C7#9b13",
-        "Fm7b5add11",
-        "Bb7b9b13",
-        "Ebm11",
-        "Ab13b9",
-    ];
-    let input =
-        "|*,. ., } .*,| } } .*l ,|*O*O*| l _.*,|*,. } *,. } |*l } *l .,|*l } ., .*,|} ., ., .,|";
-    let smf = generator.with_wildcards(input, &mut chords, true);
+    let generator = ChordCompingGenerator::new(65, 70);
+    // First A section of `Ruby, My Dear`,
+    // from the amazing composer Thelonious Monk (October 10, 1917 – February 17, 1982 ❤️).
+    let input2 = "|Fm9 L Bb13b9 L|Ebmaj7l.Fm7,F#m7,Gm7,Abm7,Am7,|Gm9L C13b9L|Fmaj7l Gm7l 
+        Abm7l Am7l|Bbm7L Eb13b9L|Abmaj7lBbm7,Bm7,Cm7L|Bbmadd11LAadd9L|E7susLBb7b5L|";
+    let smf = generator.from_string(input2, false);
     match smf {
         Ok(smf) => {
-            let path = Path::new("comping").with_extension("mid");
+            let path = Path::new("ruby_my_dear").with_extension("mid");
             let mut file = std::fs::File::create(path).unwrap();
+            // Export the MIDI file fo disk
             smf.write_std(&mut file).unwrap();
         }
         Err(e) => {
