@@ -64,7 +64,7 @@ impl ChordCompingGenerator {
         for c in i.chars() {
             if c == '*' {
                 if let Some(ch) = chords.pop() {
-                    parsed.push_str(&ch);
+                    parsed.push_str(ch);
                 } else {
                     return Err(ParserErrors::new(vec![
                         "There are more wildcards than chords".to_string(),
@@ -131,17 +131,16 @@ impl ChordCompingGenerator {
                     }
                 }
                 TokenType::Rest(r) => match r {
-                    Rest::QuarterRest => start += self.quarter(),
-                    Rest::EightRest => start += self.eigth(),
-                    Rest::HalfRest => start += self.half(),
+                    Rest::Quarter => start += self.quarter(),
+                    Rest::Eight => start += self.eigth(),
+                    Rest::Half => start += self.half(),
                 },
                 TokenType::Duration(d) => {
-                    let duration;
-                    match d {
-                        Duration::Quarter => duration = self.quarter(),
-                        Duration::Eight => duration = self.eigth(),
-                        Duration::Half => duration = self.half(),
-                    }
+                    let duration = match d {
+                        Duration::Quarter => self.quarter(),
+                        Duration::Eight => self.eigth(),
+                        Duration::Half => self.half(),
+                    };
                     if let Some(ref mut ctx) = context {
                         ctx.start = start;
                         ctx.duration = duration;

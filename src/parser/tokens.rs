@@ -6,9 +6,9 @@ pub enum Duration {
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Rest {
-    HalfRest,
-    QuarterRest,
-    EightRest,
+    Half,
+    Quarter,
+    Eight,
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TokenType {

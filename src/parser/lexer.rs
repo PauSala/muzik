@@ -60,11 +60,11 @@ impl Lexer {
             None => (),
             Some(c) => match c {
                 'O' => self.add_token(TokenType::Duration(Duration::Half)),
-                '_' => self.add_token(TokenType::Rest(Rest::HalfRest)),
+                '_' => self.add_token(TokenType::Rest(Rest::Half)),
                 'l' => self.add_token(TokenType::Duration(Duration::Quarter)),
-                '}' => self.add_token(TokenType::Rest(Rest::QuarterRest)),
+                '}' => self.add_token(TokenType::Rest(Rest::Quarter)),
                 ',' => self.add_token(TokenType::Duration(Duration::Eight)),
-                '.' => self.add_token(TokenType::Rest(Rest::EightRest)),
+                '.' => self.add_token(TokenType::Rest(Rest::Eight)),
                 '|' => (),
                 ' ' => (),
                 _ => {
