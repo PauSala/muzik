@@ -30,6 +30,10 @@ impl Default for ChordCompingGenerator {
 }
 
 impl ChordCompingGenerator {
+    /// Create a new ChordCompingGenerator
+    /// ## Arguments
+    /// * `bpm` - Beats per minute for the MIDI track.
+    /// * `lead_note` - Highest note as MIDI code to build the voicing around, a value between 68 and 74 should be a good choice.
     pub fn new(bpm: u32, lead_note: u8) -> ChordCompingGenerator {
         ChordCompingGenerator {
             bpm,

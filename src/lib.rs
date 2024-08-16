@@ -1,12 +1,14 @@
 //! # [Overview](#overview)
-//! muzik is a library for generating chord progressions as MIDI files.
-//! It allows you to generate MIDI files from a string input that encompasses both chords and rhythm. With this library, you can:
+//! muzik is a library for generating chord progressions as MIDI files.  
+//! It allows you to generate compings from a string input that encompasses both chords and rhythm.  
 //!
+//!
+//! With this library, you can:  
 //! **Use almost any chord**: Incorporate almost any chord type used in modern music.  
 //! **Implement Voice Leading**: The library constructs progressions with a lead voice in mind, ensuring smooth transitions and a natural flow between chords.  
 //! **Customize Rhythm**: Define simple rhythmic patterns.  
 //!
-//! The library's primary purpose is to enable the programmatic generation of compings from a relatively simple input string. Because of this focus, it has limitations compared to traditional score-writing software and is not intended to replace them.
+//! The library's primary purpose is to enable the programmatic generation of compings from a relatively simple input string. Because of this focus, it has limitations compared to traditional score-writing software and is not intended to replace it.
 //!
 //! # [How it works](#how_it_works)
 //! The rithm is defined as follows:
@@ -19,26 +21,28 @@
 //! - `,` = eigth note
 //! - `.` = eight rest
 //! - `|` represents a measure delimiter, it is supported for readability but can be omited.  
-//! The input is readed from left to write. When a chord is found it is set as the context for current rithm.
+//!
+//! The input is readed from left to right. When a chord is found it is set as the context for current rithm.  
 //! For example (note that spaces are not mandatory, they are used to improve readability):
-//! - `|Fm l l ~ |`: A measure with an Fm played as two quarter notes and a half rest.
-//! - `|Fm l l Bbm l .,|`: A measure with an Fm played as two quarter and a Bb played as a quarter, an eight rest and an eigth.  
+//! - `|Fm l l ~ |` A measure with an Fm played as two quarter notes and a half rest.
+//! - `|Fm l l Bbm l .,|` A measure with an Fm played as two quarter and a Bbm played as a quarter, an eight rest and an eigth.  
+//!
 //! As seen in these examples, when a chord is placed in a mesure all the following notes are played as this chord until another chord is found.  
 //! Note that as measure delimiters are not mandatory you can build rithms overflowing the measure, for example, assuming we are in 4/4:
-//! - `|DbMaj7 l } } L } l l |`: you can overflow the first measure representing a tie between two quarter notes.  
-//! In fact, the parser is agnostic to the time signature, so you could write chords and rithms with no measure delimiters at all.  
+//! - `|DbMaj7 l } } L } l l |` This template overflows the first measure representing a tie between two quarter notes.  
 //!
-//! Once the string input is defined instantiate the ChordCompingGenerator and call its `from_string` method with the input string and a boolean indicating if you want to include the bass note in the generated progression.
+//! In fact, the parser is agnostic to the time signature, so you could write chords and rithms with no measure delimiters at all.  
+//! Once the string input is defined instantiate the [ChordCompingGenerator](comping_generator/struct.ChordCompingGenerator.html) and call its `from_string` method.
 //!
 //! ### Using wildcards
-//! Another way to define the input is using wildcards for chords, so you could write:
-//! - `|*l l ~ |*O   |*L *L |*l } l } |`  
+//! Another way to define the input is using wildcards for chords, so you could write:  
+//! `|*l l ~ |*O   |*L *L |*l } l } |`    
 //! And use a vector of chords containing 5 chord strings (one for each wildcard).  
-//! Then call the `from_wildcards` method with the input string and the vector of chords.
-//! We found this method useful when working with complex rithms and large chords (like AbMaj7#119)
+//! Then call the `from_wildcards` method with the input string and chord vector.  
+//! We found this method useful when working with complex rithms and large chords (like AbMaj7#11add9)
 //!
 //!
-//! # [Examples]
+//! # [Examples](#examples)
 //! ```rust
 //! use muzik::comping_generator::ChordCompingGenerator;
 //! use std::path::Path;
@@ -66,8 +70,8 @@
 //! ```
 //!
 //! # [Limitations](#limitations)
-//! - As you can see the rithm palette is narrowed in favor of simplicity. There are no sixteenth notes/rests, no triplets and no dots. This is fine for our use cases, but maybe in the future we will add at least sixteenths and dots.   
-//! - No swing feel. Since the MIDI file can be exported in any musical software capable of importing MIDI files, we leave this functionality to those softwares, which usually can quantize MIDI with a nice swing feeling.
+//! - The rithm palette is narrowed in favor of simplicity. There are no sixteenth notes/rests, no triplets and no dots. This is fine for our use cases, but maybe in the future we will add at least sixteenths and dots.   
+//! - No swing feel. Since the MIDI files can be imported into any software that supports MIDI import, we leave the addition of swing functionality to those programs, which typically offer options to quantize MIDI with a swing feel.
 //!
 pub mod comping_generator;
 pub(crate) mod midi_chord;
