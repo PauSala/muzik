@@ -79,7 +79,7 @@ match smf {
 }
 ```
 
-The [generated file](RubyMyDear.mp3), imported to GarageBand and exported as an audio file.
+Here is the [generated comping](RubyMyDear.mp3), imported to GarageBand and exported as mp3.
 
 # Limitations
 
