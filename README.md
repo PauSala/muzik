@@ -1,6 +1,6 @@
 # Muzik
 
-A library to generate chord compings in MIDI format
+A library for generating chord progressions as MIDI files from string templates
 
 # Overview
 
