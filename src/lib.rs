@@ -53,7 +53,7 @@
 //!
 //! // First A section of `Ruby, My Dear`,  
 //! // from the amazing composer Thelonious Monk (October 10, 1917 – February 17, 1982 ❤️).
-//! let rmd = "|Fm9 L Bb13b9 L|Ebmaj7l.Fm7,F#m7,Gm7,Abm7,Ab6,|Gm9L C13b9L|Fmaj7l Gm7l
+//! let rmd = "|Fm9 L Bb13b9 L|Ebmaj7l.Fm7,F#m7,Gm7,Abm7,Am7,|Gm9L C13b9L|Fmaj7l Gm7l
 //!        Abm7l Am7l|Bbm7L Eb13b9L|Abmaj7lBbm7,Bm7,Cm7L|Bbmadd11LAadd9L|E7susLBb7b5L|";
 //! let smf = generator.from_string(rmd, false);
 //!     match smf {
