@@ -40,7 +40,7 @@ Note that as measure delimiters are not mandatory you can build rithms overflowi
 - `|DbMaj7 l } } L } l l |` This template overflows the first measure representing a tie between two quarter notes.
 
 In fact, the parser is agnostic to the time signature, so you could write chords and rithms with no measure delimiters at all.  
-Once the string input is defined instantiate the [ChordCompingGenerator](comping_generator/struct.ChordCompingGenerator.html) and call its `from_string` method.
+Once the string input is defined instantiate the ChordCompingGenerator and call its `from_string` method.
 
 ### Using wildcards
 
