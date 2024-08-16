@@ -5,12 +5,12 @@ A library to generate chord compings in MIDI format
 # Overview
 
 muzik is a library for generating chord progressions as MIDI files.  
- It allows you to generate compings from a string input that encompasses both chords and rhythm.
+It allows you to generate compings from a string input that encompasses both chords and rhythm.
 
 With this library, you can:  
- **Use almost any chord**: Incorporate almost any chord type used in modern music.  
- **Implement Voice Leading**: The library constructs progressions with a lead voice in mind, ensuring smooth transitions and a natural flow between chords.  
- **Customize Rhythm**: Define simple rhythmic patterns.
+**Use almost any chord**: Incorporate almost any chord type used in modern music.  
+**Implement Voice Leading**: The library constructs progressions with a lead voice in mind, ensuring smooth transitions and a natural flow between chords.  
+**Customize Rhythm**: Define simple rhythmic patterns.
 
 The library's primary purpose is to enable the programmatic generation of compings from a relatively simple input string. Because of this focus, it has limitations compared to traditional score-writing software and is not intended to replace it.
 
@@ -29,26 +29,25 @@ The rithm is defined as follows:
 - `|` represents a measure delimiter, it is supported for readability but can be omited.
 
 The input is readed from left to right. When a chord is found it is set as the context for current rithm.  
- For example (note that spaces are not mandatory, they are used to improve readability):
+For example (note that spaces are not mandatory, they are used to improve readability):
 
 - `|Fm l l ~ |` A measure with an Fm played as two quarter notes and a half rest.
 - `|Fm l l Bbm l .,|` A measure with an Fm played as two quarter and a Bbm played as a quarter, an eight rest and an eigth.
 
 As seen in these examples, when a chord is placed in a mesure all the following notes are played as this chord until another chord is found.  
- Note that as measure delimiters are not mandatory you can build rithms overflowing the measure, for example, assuming we are in 4/4:
+Note that as measure delimiters are not mandatory you can build rithms overflowing the measure, for example, assuming we are in 4/4:
 
 - `|DbMaj7 l } } L } l l |` This template overflows the first measure representing a tie between two quarter notes.
 
 In fact, the parser is agnostic to the time signature, so you could write chords and rithms with no measure delimiters at all.  
- Once the string input is defined instantiate the [ChordCompingGenerator](comping_generator/struct.ChordCompingGenerator.html) and call its `from_string` method.
+Once the string input is defined instantiate the [ChordCompingGenerator](comping_generator/struct.ChordCompingGenerator.html) and call its `from_string` method.
 
 ### Using wildcards
 
-Another way to define the input is using wildcards for chords, so you could write:  
- `|*l l ~ |*O   |*L *L |*l } l } |`  
- And use a vector of chords containing 5 chord strings (one for each wildcard).  
- Then call the `from_wildcards` method with the input string and chord vector.  
- We found this method useful when working with complex rithms and large chords (like AbMaj7#11add9)
+Another way to define the input is using wildcards for chords, so you could use this template: `|*l l ~ |*O   |*L *L |*l } l } |`.  
+And then, use a vector of chords containing 5 chord strings (one for each wildcard `*`).  
+Then call the `from_wildcards` method with the input string and chord vector.  
+We found this method useful when working with complex rithms and large chords (like AbMaj7#11add9)
 
 # Examples
 

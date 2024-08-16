@@ -35,9 +35,8 @@
 //! Once the string input is defined instantiate the [ChordCompingGenerator](comping_generator/struct.ChordCompingGenerator.html) and call its `from_string` method.
 //!
 //! ### Using wildcards
-//! Another way to define the input is using wildcards for chords, so you could write:  
-//! `|*l l ~ |*O   |*L *L |*l } l } |`    
-//! And use a vector of chords containing 5 chord strings (one for each wildcard).  
+//! Another way to define the input is using wildcards for chords, so you could use this template: `|*l l ~ |*O   |*L *L |*l } l } |`.  
+//! And then, use a vector of chords containing 5 chord strings (one for each wildcard `*`).  
 //! Then call the `from_wildcards` method with the input string and chord vector.  
 //! We found this method useful when working with complex rithms and large chords (like AbMaj7#11add9)
 //!
