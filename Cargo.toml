@@ -1,8 +1,8 @@
 [package]
 name = "muzik"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
-description = "A parser library to generate Jazz/Pop/Rock chords from string inputs"
+description = "A library for generating chord progressions as MIDI files from string templates"
 repository = "https://github.com/PauSala/muzik"
 license = "MIT"
 keywords = ["music", "music-theory", "chords", "midi", "jazz"]
